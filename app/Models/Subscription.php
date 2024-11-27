@@ -9,23 +9,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class Subscription extends Model
 {
     use HasFactory;
     use HasRoles;
+    use HasApiTokens;
 
     protected $fillable = [
-        'user_id', 
+        'user_id',
         'package_id',
-        'transaction_id', 
-        'start_date', 
-        'end_date', 
+        'transaction_id',
+        'start_date',
+        'end_date',
         'status'
     ];
 
     protected $dates = [
-        'start_date', 
+        'start_date',
         'end_date'
     ];
 
@@ -36,7 +39,7 @@ class Subscription extends Model
             // Generate unique transaction ID
             // $timestamp = now()->format('Ymd');
             $randomPart = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-            
+
             $subscription->transaction_id = 'PR-' . $randomPart;
         });
     }
