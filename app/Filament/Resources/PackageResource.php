@@ -17,6 +17,9 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+// Json additional
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 
 class PackageResource extends Resource
@@ -143,3 +146,41 @@ class PackageResource extends Resource
     }
 }
 
+// json Resource
+class PostResource extends JsonResource
+{
+    //define properti
+    public $status;
+    public $message;
+    public $resource;
+
+    /**
+     * __construct
+     *
+     * @param  mixed $status
+     * @param  mixed $message
+     * @param  mixed $resource
+     * @return void
+     */
+    public function __construct($status, $message, $resource)
+    {
+        parent::__construct($resource);
+        $this->status  = $status;
+        $this->message = $message;
+    }
+
+    /**
+     * toArray
+     *
+     * @param  mixed $request
+     * @return array
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'success'   => $this->status,
+            'message'   => $this->message,
+            'data'      => $this->resource
+        ];
+    }
+}

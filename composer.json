@@ -17,6 +17,7 @@
         "filament/tables": "^3.2",
         "filament/widgets": "^3.2",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "^6.10"
     },
