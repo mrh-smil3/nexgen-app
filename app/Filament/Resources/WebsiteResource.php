@@ -35,7 +35,7 @@ class WebsiteResource extends Resource
                     ->relationship('subscription', 'transaction_id', modifyQueryUsing: function ($query, callable $get) {
                         // Ambil user_id yang dipilih
                         $userId = $get('user_id');
-            
+
                         // Filter subscription berdasarkan user_id yang dipilih
                         return $query
                             ->where('user_id', $userId) // Pastikan untuk menyesuaikan dengan kolom yang sesuai
@@ -45,8 +45,9 @@ class WebsiteResource extends Resource
                     ->required()
                     ->searchable()
                     ->preload()
-                    ->disabled(fn (callable $get) => !$get('user_id')) // Nonaktifkan jika user_id belum dipilih
-                    ->getOptionLabelFromRecordUsing(fn ($record) => 
+                    ->disabled(fn(callable $get) => !$get('user_id')) // Nonaktifkan jika user_id belum dipilih
+                    ->getOptionLabelFromRecordUsing(
+                        fn($record) =>
                         $record ? $record->transaction_id . '' . $record->other_attribute : 'No Transaction ID'
                     ),
                 Forms\Components\TextInput::make('domain_name')
@@ -104,14 +105,14 @@ class WebsiteResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        
+
         $user = auth()->user();
-        
+
         // Super admin melihat semua
         if ($user->hasRole('super-admin')) {
             return $query;
         }
-        
+
         // User lain hanya melihat payment milik sendiri
         return $query->where('user_id', $user->id);
     }
@@ -131,5 +132,4 @@ class WebsiteResource extends Resource
         // Hanya super admin yang bisa mengedit
         return auth()->user()->hasRole('super-admin');
     }
-
 }

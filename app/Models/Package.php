@@ -6,17 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Subscription;
 
 
 class Package extends Model
 {
     use HasFactory;
     use HasRoles;
+    use HasApiTokens;
+
 
     protected $fillable = [
-        'name', 
-        'description', 
-        'price', 
+        'name',
+        'description',
+        'price',
         'duration'
     ];
 

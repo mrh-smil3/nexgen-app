@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Website;
+use App\Models\Subscription;
 
 class User extends Authenticatable
 {
@@ -60,6 +63,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Website::class);
     }
+// <<<<<<< HEAD
+//     public function tokens()
+//     {
+//         return $this->morphMany(\Laravel\Sanctum\PersonalAccessToken::class, 'tokenable');
+// =======
     public function canAccessPanel(Panel $panel): bool
     {
         return true;

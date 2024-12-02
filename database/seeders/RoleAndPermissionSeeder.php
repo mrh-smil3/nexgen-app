@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
+use App\Models\User;
+use App\Models\Package;
 
 class RoleAndPermissionSeeder extends Seeder
 {
@@ -20,26 +22,44 @@ class RoleAndPermissionSeeder extends Seeder
 
         // Create Roles
         $adminRole = Role::create(['name' => 'super-admin']);
+
         $managerRole = Role::create(['name' => 'admin']);
         $userRole = Role::create(['name' => 'customer']);
 
-        // Create Permissions
-        Permission::create(['name' => 'view packages']);
-        Permission::create(['name' => 'create packages']);
-        Permission::create(['name' => 'edit packages']);
-        Permission::create(['name' => 'delete packages']);
+        // Create permissions
+        Permission::create(['name' => 'view users']);
+        Permission::create(['name' => 'edit users']);
+        Permission::create(['name' => 'delete users']);
+        Permission::create(['name' => 'create users']);
 
         // Assign Permissions to Roles
         $adminRole->givePermissionTo([
-            'view packages', 
-            'create packages', 
-            'edit packages', 
-            'delete packages'
+            'view users',
+            'create users',
+            'edit users',
+            'delete users'
         ]);
 
-        $managerRole->givePermissionTo([
-            'view packages', 
-            'edit packages'
+        // $managerRole->givePermissionTo([
+        //     'view packages',
+        //     'edit packages'
+        // ]);
+
+        // Create a super-admin user and assign role
+        $superAdmin = User::create([
+            'name' => 'Super Admin', // Ganti dengan nama pengguna
+            'email' => 'admin@filamentphp.com', // Ganti dengan email pengguna
+            'password' => bcrypt('admin'), // Ganti dengan password yang aman
+        ]);
+
+        $superAdmin->assignRole($adminRole);
+
+        // Create Packages
+        $superAdmin = Package::create([
+            'name' => 'Basic',
+            'description' => 'Basic Paket',
+            'price' => '1000000',
+            'duration' => '12 Bulan',
         ]);
     }
 }
